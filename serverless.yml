@@ -1,27 +1,6 @@
 service: books-service
 frameworkVersion: '3'
 
-useDotenv: true
-
-provider:
-  name: aws
-  runtime: nodejs20.x
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-        - dynamodb:DescribeTable
-      Resource: "arn:aws:dynamodb:us-east-1:305236862353:table/Books"
-
-plugins:
-  - serverless-offline
-  - serverless-dotenv-plugin
-
 functions:
   api:
     handler: dist/main-serverless.handler
@@ -35,24 +14,12 @@ functions:
           authorizer:
             name: authorizer
             arn: arn:aws:cognito-idp:us-east-1:305236862353:userpool/us-east-1_SbntYuiaa
-            scopes: 
+            scopes:
               - users/test
 
+provider: ${file(./serverless/provider.yml)}
+
+plugins: ${file(./serverless/plugins.yml)}
+
 resources:
-  Resources:
-    BooksTable:
-      Type: AWS::DynamoDB::Table
-      DeletionPolicy: Delete
-      Properties:
-        TableName: Books
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-        StreamSpecification:
-          StreamViewType: NEW_AND_OLD_IMAGES
+  - ${file(./serverless/resources.yml)}
