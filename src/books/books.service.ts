@@ -6,7 +6,7 @@ import uuid4 from 'uuid4';
 @Injectable()
 export class BooksService {
   constructor(
-    @InjectModel('Books')
+    @InjectModel(process.env.DYNAMO_TABLE)
     private userModel: Model<Book, BookKey>,
   ) {}
 

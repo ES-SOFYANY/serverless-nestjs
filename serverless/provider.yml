@@ -10,4 +10,4 @@ iamRoleStatements:
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
       - dynamodb:DescribeTable
-    Resource: "arn:aws:dynamodb:us-east-1:305236862353:table/Books"
+    Resource: arn:aws:dynamodb:us-east-1:305236862353:table/${env:DYNAMO_TABLE}

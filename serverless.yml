@@ -1,6 +1,8 @@
 service: books-service
 frameworkVersion: '3'
 
+useDotenv: true
+
 functions:
   api:
     handler: dist/main-serverless.handler
@@ -13,9 +15,11 @@ functions:
           method: ANY
           authorizer:
             name: authorizer
-            arn: arn:aws:cognito-idp:us-east-1:305236862353:userpool/us-east-1_SbntYuiaa
+            arn: ${env:COGNITO_ARN}
             scopes:
               - users/test
+    environment:
+      DYNAMO_TABLE: ${env:DYNAMO_TABLE}
 
 provider: ${file(./serverless/provider.yml)}
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
@@ -8,7 +9,7 @@ import { BookSchema } from './book';
   controllers: [BooksController],
   providers: [BooksService],
   imports: [
-    DynamooseModule.forFeature([{ name: 'Books', schema: BookSchema }]),
+    DynamooseModule.forFeature([{ name: process.env.DYNAMO_TABLE, schema: BookSchema }]),
   ],
 })
 export class BooksModule {}

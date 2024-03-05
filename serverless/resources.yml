@@ -16,4 +16,4 @@ Resources:
         WriteCapacityUnits: 1
       StreamSpecification:
         StreamViewType: "NEW_AND_OLD_IMAGES"
-      TableName: Books
+      TableName: ${env:DYNAMO_TABLE}
